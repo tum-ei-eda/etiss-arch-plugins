@@ -42,7 +42,7 @@ etiss_wd=/path/to/temp
 ```
 3. Create `PluginImpl` subdirectory: `mkdir ./temp/PluginImpl`
 4. Copy `./build/libRV32IMACFDK.so` (or other plugin) into this subdir: `cp ./build/libRV32IMACFDK.so ./temp/PluginImpl`
-5. Run EISS via `run_helper.sh` script (or calling `bare_etiss_processor` directly)
+5. Run ETISS via `run_helper.sh` script (or calling `bare_etiss_processor` directly)
 ```sh
 /path/to/etiss/install/etiss/bin/run_helper.sh /path/to/program --arch.cpu=RV32IMACFDK -icustom.ini
 ```
