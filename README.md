@@ -40,10 +40,9 @@ cmake --install build
 # Filename: custom.ini
 [StringConfigurations]
 etiss_wd=/path/to/temp/
-jit.external_header_paths="/path/to/temp/PluginImpl/;"
 ```
 3. Create `PluginImpl` subdirectory: `mkdir ./temp/PluginImpl`
-4. Copy library and include files into this subdir: `cp ./build/install/lib/plugins/*.so ./temp/PluginImpl && cp -r ./build/install/include/jit/* ./temp/PluginImpl`
+4. Copy installed files into this subdir: `cp -r ./build/install/* ./temp/PluginImpl`
 5. Run ETISS via `run_helper.sh` script (or calling `bare_etiss_processor` directly)
 ```sh
 /path/to/etiss/install/bin/run_helper.sh /path/to/program --arch.cpu=RV32IMACFDK -icustom.ini
@@ -53,18 +52,17 @@ jit.external_header_paths="/path/to/temp/PluginImpl/;"
 
 ```sh
 mkdir ./PluginImpl
-cp ./build/install/lib/plugins/*.so ./PluginImpl
-cp -r ./build/install/include/jit/* PluginImpl/
+cp -r ./build/install/* PluginImpl/
 /path/to/etiss/install/bin/run_helper.sh /path/to/program --arch.cpu=RV32IMACFDK --jit.external_header_paths="$(pwd)/PluginImpl/;"
 ```
 
 #### Option B (`list.txt`)
 
-1. Edit the `list.txt` file located in `/path/to/etiss/install/lib/plugins/`
+1. Append a line to the `list.txt` file located in `/path/to/etiss/install/lib/plugins/`
 ```sh
 cat $(pwd)/build/install/lib/plugins/list.txt >> /path/to/etiss/install/lib/plugins/list.txt
 ```
-2. Run ETISS: `/path/to/etiss/install/bin/run_helper.sh /path/to/program --arch.cpu=RV32IMACFDK --jit.external_header_paths="$(pwd)/build/install/include/jit;"`
+2. Run ETISS: `/path/to/etiss/install/bin/run_helper.sh /path/to/program --arch.cpu=RV32IMACFDK`
 
 
 **Warning**: These changes will be overwritten, when ETISS is being rebuilt!
