@@ -13,6 +13,7 @@
 #include "RV32IMACFDKArch.h"
 #include "RV32IMACFDKArchSpecificImp.h"
 #include "RV32IMACFDKFuncs.h"
+#include "etiss/Memory.h"
 
 /**
 	@brief This function will be called automatically in order to handling exceptions such as interrupt, system call, illegal instructions
@@ -57,10 +58,52 @@ etiss::int32 RV32IMACFDKArch::handleException(etiss::int32 cause, ETISS_CPU * cp
 				};
 
 */
+
+static etiss::ModuleHandle GetCurrentModule()
+{
+    static etiss::ModuleHandle hModule = 0;
+
+    if (!hModule)
+    {
+        hModule = etiss::GetModuleByAddress((uintptr_t)GetCurrentModule);
+    }
+
+    return hModule;
+}
+
+static std::string GetCurrentModulePath()
+{
+    static std::string modulePath;
+
+    if (modulePath == "")
+    {
+        modulePath = etiss::GetModulePath(GetCurrentModule());
+    }
+
+    return modulePath;
+}
+
+std::string RV32IMACFDKArch::installDir() const
+{
+    auto archLib = GetCurrentModulePath();
+    auto libPathLoc = archLib.find_last_of("/\\");
+    auto libPath = archLib.substr(0, libPathLoc);
+    auto pluginsPathLoc = libPath.find_last_of("/\\");
+    auto pluginsPath = libPath.substr(0, pluginsPathLoc);
+    auto archPathLoc = pluginsPath.find_last_of("/\\");
+    return libPath.substr(0, archPathLoc);
+}
+
+std::string RV32IMACFDKArch::jitFiles() const
+{
+    return installDir() + "/include/jit";
+}
+
 void RV32IMACFDKArch::initInstrSet(etiss::instr::ModedInstructionSet & mis) const
 {
 
     {
+     std::string requiredJitFilesPath = jitFiles();
      /* Set default JIT Extensions. Read Parameters set from ETISS configuration and append with architecturally needed */
      std::string cfgPar = "";
      cfgPar = etiss::cfg().get<std::string>("jit.external_headers", ";");
@@ -70,7 +113,7 @@ void RV32IMACFDKArch::initInstrSet(etiss::instr::ModedInstructionSet & mis) cons
      etiss::cfg().set<std::string>("jit.external_libs", cfgPar + "softfloat");
 
      cfgPar = etiss::cfg().get<std::string>("jit.external_header_paths", ";");
-     etiss::cfg().set<std::string>("jit.external_header_paths", cfgPar + "/etiss/jit");
+     etiss::cfg().set<std::string>("jit.external_header_paths", cfgPar + "/etiss/jit;" + requiredJitFilesPath);
 
      cfgPar = etiss::cfg().get<std::string>("jit.external_lib_paths", ";");
      etiss::cfg().set<std::string>("jit.external_lib_paths", cfgPar + "/etiss/jit");

@@ -9,6 +9,7 @@
 
 #include "etiss/CPUArch.h"
 #include "etiss/Instruction.h"
+#include "etiss/Memory.h"
 #include "etiss/InterruptVector.h"
 #include "etiss/InterruptEnable.h"
 #include "RV32IMACFDK.h"
@@ -70,7 +71,22 @@ public:
 	virtual etiss::int32 handleException(etiss::int32 code, ETISS_CPU * cpu);
 
 	/**
+		@brief This function will return the base installation directory of the ArchLib
+
+		@see RV32IMACFDKArchSpecificImp.h
+	*/
+	virtual std::string installDir() const;
+
+	/**
+		@brief This function will return the include prefix relative to the base installation directory of the ArchLib
+
+		@see RV32IMACFDKArchSpecificImp.h
+	*/
+	virtual std::string jitFiles() const;
+
+	/**
 		@brief This function is called during CPUArch initialization
+		@brief This function will return the base installation directory of the ArchLib
 
 		@see RV32IMACFDKArchSpecificImp.h
 	*/
