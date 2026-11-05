@@ -1,0 +1,13 @@
+{
+  "architecture": "RV64IMACFDK",
+  "cdsl": "7cf6858c78a6ca9568ae22c184d93752a44ef55e",
+  "etiss": "44a8dd3035324d2fe3cd65c6b878cb84404df25b",
+  "etiss_instruction_word_bits": 64,
+  "fill_mode": "auto",
+  "k_addi_explicit_cast": true,
+  "m2isar": "0a58a9f88b336b704d3ec9712190d9c6c403a46c",
+  "rv_48bit": "6d7d175c5e920bb498ce195d8b6ed58b534e99fc",
+  "rv_base": "749b7cbdde9596a119b3f580039c58e40d5614d5",
+  "rvk_sha256": "b7277b1a3f3d0231f245e310385d50280a3f53657eeb9ba72aa4b2edea9eb13d",
+  "top_sha256": "5755442c705d24e79fa8161ff6fa8b1effc2ed7854e278f8f4f54402c94514ef"
+}
